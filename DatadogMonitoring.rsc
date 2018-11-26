@@ -14,6 +14,14 @@
 :local datetime [$timestamp];
 :local identity [/system identity get name];
 
+# Exceptional metrics pre-declared due to some additional checks
+# system resource bad-blocks
+:local badblocks [/system resource get bad-blocks];
+:if ([:len $badblocks] = 0) do={
+:set badblocks 0;
+}
+
+# Create metrics array
 :local metrics {
 "metrics"={
 "system.cpu.load"=[/system resource get cpu-load];
@@ -23,7 +31,7 @@
 "system.disk.hddspace.free"=[/system resource get free-hdd-space];
 "system.disk.writesect.total"=[/system resource get write-sect-total];
 "system.disk.writesect.sincereboot"=[/system resource get write-sect-since-reboot];
-"system.disk.badblocks"=[/system resource get bad-blocks];
+"system.disk.badblocks"=$badblocks;
 "system.firewall.connections"=[/ip firewall connection print count-only];
 };
 }
