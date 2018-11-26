@@ -13,6 +13,7 @@
 :if ([:tostr [:pick $months $x]] = $M) do={
 :set M ($x + 1); } 
 }
+
 :if ( $M = 1 || $M = 2) do={
 :set Y ($Y-1);
 :set M ($M+12);
@@ -23,6 +24,7 @@
 :local C (2-$A+$B);
 :local E ((($Y+4716) * 36525)/100);
 :local F ((306001*($M+1))/10000);
+
 return ($C+$D+$E+$F-1525);
 };
 
