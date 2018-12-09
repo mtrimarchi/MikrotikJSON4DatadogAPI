@@ -10,37 +10,33 @@
 :local Y [:pick $1 7 11];
 
 :for x from=0 to=([:len $months] - 1) do={
-:if ([:tostr [:pick $months $x]] = $M) do={
-:set M ($x + 1); } 
+    :if ([:tostr [:pick $months $x]] = $M) do={:set M ($x + 1) } 
 }
-
 :if ( $M = 1 || $M = 2) do={
-:set Y ($Y-1);
-:set M ($M+12);
+    :set Y ($Y-1);
+    :set M ($M+12);
 }
 
-:local A ($Y/100);
-:local B ($A/4);
-:local C (2-$A+$B);
-:local E ((($Y+4716) * 36525)/100);
-:local F ((306001*($M+1))/10000);
-
-return ($C+$D+$E+$F-1525);
+:local A ($Y/100)
+:local B ($A/4)
+:local C (2-$A+$B)
+:local E ((($Y+4716) * 36525)/100)
+:local F ((306001*($M+1))/10000)
+return ($C+$D+$E+$F-1525)
 };
 
 # Timestamp function to get UNIX POSIX timestamp in UTC timezone
 :global timestamp do={
 
-:local functionJulianDate $functionJulianDate
+:global functionJulianDate $functionJulianDate
 :local currenttime [/system clock get time];
-:local gmtoffset [/system clock get gmt-offset];
-:local jdnow [$functionJulianDate [/system clock get date]];
-:local days ($jdnow - 2440587);
-:local hours [:pick $currenttime 0 2];
-:local minutes [:pick $currenttime 3 5];
-:local seconds [:pick $currenttime 6 8];
+:local jdnow [$functionJulianDate [/system clock get date]]
+:local days ($jdnow - 2440587)
+:local hours [:pick $currenttime 0 2]
+:local minutes [:pick $currenttime 3 5]
+:local seconds [:pick $currenttime 6 8]
 
-return (($days * 86400) + ($hours * 3600) + ($minutes * 60) + $seconds - $gmtoffset);
+return (($days * 86400) + ($hours * 3600) + ($minutes * 60) + $seconds - [/system clock get gmt-offset]);
 }
 
 # Get uptime in seconds
@@ -54,14 +50,14 @@ return (($days * 86400) + ($hours * 3600) + ($minutes * 60) + $seconds - $gmtoff
 :local days 0;
 
 :if ([:find $uptime "w" -1] > 0) do={
-:set weekend [:find $uptime "w" -1];
-:set weeks [:pick $uptime 0 $weekend];
-:set weekend ($weekend+1);
+    :set weekend [:find $uptime "w" -1];
+    :set weeks [:pick $uptime 0 $weekend];
+    :set weekend ($weekend+1);
 };
 
 :if ([:find $uptime "d" -1] > 0) do={
-:set dayend [:find $uptime "d" -1];
-:set days [:pick $uptime $weekend $dayend];
+    :set dayend [:find $uptime "d" -1];
+    :set days [:pick $uptime $weekend $dayend];
 };
 
 :local time [:pick $uptime ([:len $uptime]-8) [:len $uptime]]; 
