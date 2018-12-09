@@ -50,8 +50,8 @@
 
 # Additional values that we can add to main metrics array
 
-# monitor-traffic tx/rx bps on all interfaces
-:foreach interface in=[/interface find] do={
+# monitor-traffic tx/rx bps on all ethernet interfaces
+:foreach interface in=[/interface ethernet find] do={
     :local intfName [/interface get $interface name];
     /interface monitor-traffic $intfName once do={
         :set ($metrics->("system.interfaces.".$intfName.".tx-bits-per-second")) (tx-bits-per-second / 1024);
