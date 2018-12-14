@@ -46,6 +46,12 @@
     "system.disk.writesect.sincereboot"=$writesectsincereboot;
     "system.disk.badblocks"=$badblocks;
     "system.firewall.connections"=[/ip firewall connection print count-only];
+    "system.ppp.all"=[/ppp active print count-only];
+    "system.ppp.sstp"=[/ppp active print count-only where service=sstp];
+    "system.ppp.pptp"=[/ppp active print count-only where service=pptp];
+    "system.ppp.ovpn"=[/ppp active print count-only where service=ovpn];
+    "system.ppp.pppoe"=[/ppp active print count-only where service=pppoe];
+    "system.ppp.l2tp"=[/ppp active print count-only where service=l2tp];
 }
 
 # Additional values that we can add to main metrics array
