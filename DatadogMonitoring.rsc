@@ -87,6 +87,6 @@
 
 # Call API via POST
 :set ddendpoint ($ddendpoint."/series\?api_key=".$apikey."&application_key=".$applicationkey);
-/tool fetch keep-result=no mode=https http-method=post http-content-type="application/json" http-data=$httpdata url=$ddendpoint;
+/tool fetch keep-result=no mode=https http-method=post http-header-field="Content-Type:application/json" http-data=$httpdata url=$ddendpoint;
 
 }
