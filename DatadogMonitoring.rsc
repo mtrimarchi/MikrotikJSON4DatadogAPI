@@ -35,6 +35,48 @@
     :set writesectsincereboot 0;
 }
 
+# system health voltage
+:local healthvoltage [/system health get voltage];
+:if ([:len $healthvoltage] = 0) do={
+    :set healthvoltage 0;
+}
+
+# system health current
+:local healthcurrent [/system health get current];
+:if ([:len $healthcurrent] = 0) do={
+    :set healthcurrent 0;
+}
+
+# system health temperature
+:local healthtemperature [/system health get temperature];
+:if ([:len $healthtemperature] = 0) do={
+    :set healthtemperature 0;
+}
+
+# system health cpu-temperature
+:local healthcputemperature [/system health get cpu-temperature];
+:if ([:len $healthcputemperature] = 0) do={
+    :set healthcputemperature 0;
+}
+
+# system health power-consumption
+:local healthpowerconsumption [/system health get power-consumption];
+:if ([:len $healthpowerconsumption] = 0) do={
+    :set healthpowerconsumption 0;
+}
+
+# system health fan1-speed
+:local healthfan1speed [/system health get fan1-speed];
+:if ([:len $healthfan1speed] = 0) do={
+    :set healthfan1speed 0;
+}
+
+# system health fan2-speed
+:local healthfan2speed [/system health get fan2-speed];
+:if ([:len $healthfan2speed] = 0) do={
+    :set healthfan2speed 0;
+}
+
 # Create metrics array
 :set metrics {
     "system.cpu.load"=[/system resource get cpu-load];
@@ -52,6 +94,13 @@
     "system.ppp.ovpn"=[/ppp active print count-only where service=ovpn];
     "system.ppp.pppoe"=[/ppp active print count-only where service=pppoe];
     "system.ppp.l2tp"=[/ppp active print count-only where service=l2tp];
+    "system.health.voltage"=$healthvoltage;
+    "system.health.current"=$healthcurrent;
+    "system.health.temperature"=$healthtemperature;
+    "system.health.temperature.cpu"=$healthcputemperature;
+    "system.health.consumption"=$healthpowerconsumption;
+    "system.health.fanspeed.1"=$healthfan1speed;
+    "system.health.fanspeed.2"=$healthfan2speed;
 }
 
 # Additional values that we can add to main metrics array
