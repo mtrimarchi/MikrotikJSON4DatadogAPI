@@ -74,6 +74,24 @@
     }
 }
 
+# monitor-traffic tx/rx bps on all bridge interfaces
+:foreach interface in=[/interface bridge find] do={
+    :local intfName [/interface get $interface name];
+    /interface monitor-traffic $intfName once do={
+        :set ($metrics->("system.interfaces.".$intfName.".tx-bits-per-second")) (tx-bits-per-second / 1024);
+        :set ($metrics->("system.interfaces.".$intfName.".rx-bits-per-second")) (rx-bits-per-second / 1024);
+    }
+}
+
+# monitor-traffic tx/rx bps on all bonding interfaces
+:foreach interface in=[/interface bonding find] do={
+    :local intfName [/interface get $interface name];
+    /interface monitor-traffic $intfName once do={
+        :set ($metrics->("system.interfaces.".$intfName.".tx-bits-per-second")) (tx-bits-per-second / 1024);
+        :set ($metrics->("system.interfaces.".$intfName.".rx-bits-per-second")) (rx-bits-per-second / 1024);
+    }
+}
+
 # Datadog JSON data to parse with Datadog API post-timeseries-points
 
 # Open Series
