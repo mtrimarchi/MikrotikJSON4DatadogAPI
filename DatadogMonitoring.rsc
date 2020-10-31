@@ -141,6 +141,15 @@
     }
 }
 
+# monitor-traffic tx/rx bps on all pppoe-client interfaces
+:foreach interface in=[/interface pppoe-client find] do={
+    :local intfName [/interface get $interface name];
+    /interface monitor-traffic $intfName once do={
+        :set ($metrics->("system.interfaces.".$intfName.".tx-bits-per-second")) (tx-bits-per-second / 1024);
+        :set ($metrics->("system.interfaces.".$intfName.".rx-bits-per-second")) (rx-bits-per-second / 1024);
+    }
+}
+
 # Datadog JSON data to parse with Datadog API post-timeseries-points
 
 # Open Series
